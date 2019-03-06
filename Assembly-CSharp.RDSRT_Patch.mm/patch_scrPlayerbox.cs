@@ -10,14 +10,14 @@ namespace RDSRT
     {
         public extern void orig_SpaceBarEvent(bool CPUTriggered = false);
         public new void SpaceBarEvent(bool CPUTriggered) {
-            Debug.Log(String.Format("ACCORDING TO PLAYERBOX WE HIT SPACE AT {0} FRAME {1}", Utils.CurrentTimePassed(), Time.frameCount));
+            Debug.Log(String.Format("[Playerbox] Press! Time: {0} Frame: {1}", Utils.CurrentTimePassed(), Time.frameCount));
             orig_SpaceBarEvent(CPUTriggered);
         }
 
         public extern void orig_SpaceBarReleased(RDPlayer player, bool CPUTriggered = false);
         public new void SpaceBarReleased(RDPlayer player,bool CPUTriggered = false)
         {
-            Debug.Log(String.Format("ACCORDING TO PLAYERBOX WE RELEASED SPACE AT {0} FRAME {1}", Utils.CurrentTimePassed(), Time.frameCount));
+            Debug.Log(String.Format("[Playerbox] Release! Time: {0} Frame: {1}", Utils.CurrentTimePassed(), Time.frameCount));
             orig_SpaceBarReleased(player, CPUTriggered);
         }
 

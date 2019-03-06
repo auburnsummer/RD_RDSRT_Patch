@@ -20,7 +20,8 @@ namespace RDSRT
 
         public static string GetCurrentSongName()
         {
-            //
+            // so apparently you can do monomod magic here instead of reflection, but i can't get it working
+            // and i've already asked 0x0ade too many questions haha 
             return (string)typeof(scrConductor).GetField("currentSongString", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(scrConductor.instance);
         }
 
@@ -104,6 +105,11 @@ namespace RDSRT
             }
         }
 
+        // we use time.deltaTime to decide when we should hit a beat early.
+        // but time.deltaTime... changes DEPENDING ON THE GAME SPEED!????
+        // so we just divide by it here to cancel it out (since normally Time.timeScale is 1)
+        public static float DeltaTimeNoScale => Time.deltaTime / Time.timeScale;
+
         public static bool ShouldWePlayThisInputRecordNow(InputRecord record, string songLastFrame)
         {
             string songThisFrame = GetCurrentSongName();
@@ -129,7 +135,7 @@ namespace RDSRT
             else
             {
                 // Something like: hit the beat if it's close to us, or if we've already past it
-                if (record.time < (CurrentTimePassed() + Time.deltaTime))
+                if (record.time < (CurrentTimePassed() + DeltaTimeNoScale))
                 {
                     return true;
                 }

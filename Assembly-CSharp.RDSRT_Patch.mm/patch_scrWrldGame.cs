@@ -68,19 +68,20 @@ namespace RDSRT
                     {
                         InputRecord currentRecord = inputRecords[currentRecordIndex];
                         // set the fake news
-                        Utils.FakeNews = true;
                         Utils.FakeNewsValue = currentRecord.time + scrConductor.instance.startOfSong;
+                        Debug.Log(String.Format("[FakeNews] The time is {0}, instead of {1}. frame {2}", Utils.FakeNewsValue - scrConductor.instance.startOfSong, Utils.CurrentTimePassed(), Time.frameCount));
+                        Utils.FakeNews = true;
                         // play the record
                         Utils.PlayInputRecord(currentRecord);
                         Debug.Log(String.Format(
-                            "Playing {0} InputRecord {1} at time {2}, OT {3}, error {4}, DT {5}, frame {6}",
+                            "[InputRecord] Playing {0} InputRecord {1} at time {2}, OT {3}, error {4}, DT {5}, frame {6}",
                             currentRecord.player == 1 ? "P2" : "P1",
                             currentRecord.inputs,
                             Utils.CurrentTimePassed(),
                             currentRecord.time,
                             Math.Abs(Utils.CurrentTimePassed() - currentRecord.time),
                             Time.deltaTime,
-                            Time.frameCount
+                            Utils.DeltaTimeNoScale
                             ));
                         currentRecordIndex++;
                     }
@@ -93,16 +94,16 @@ namespace RDSRT
         public extern IEnumerator orig_StartTheGame(float speed = 1f, string customMessage = "");
         public new IEnumerator StartTheGame(float speed = 1f, string customMessage = "")
         {
-            Debug.Log("LET US START THE GAME");
+            Debug.Log("[RDSRT] LET US START THE GAME");
             Debug.Log(String.Format("The Role is {0}", CurrentRole.ToString()));
             if (CurrentRole == RDSRT_Role.Sender)
             {
-                Debug.Log("We're in the role of a Sender");
+                Debug.Log("[RDSRT] We're in the role of a Sender");
                 Utils.ClearInputFile();
             }
             else if (CurrentRole == RDSRT_Role.Receiver)
             {
-                Debug.Log("We're in the role of a Receiver");
+                Debug.Log("[RDSRT] We're in the role of a Receiver");
                 inputRecords = Utils.loadInputRecordsFromFile();
                 currentRecordIndex = 0;
             }
